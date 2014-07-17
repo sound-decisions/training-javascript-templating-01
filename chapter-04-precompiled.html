@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="shortcut icon" href="assets/images/fav_icons/sd_favicon_purple.png" type="image/x-icon" />
+	<title>JavaScript Templating</title>
+	<link href="assets/css/bootstrap.min.css" rel="stylesheet">
+	<link href="assets/css/custom.css" rel="stylesheet">
+</head>
+<body>
+	
+	<div class="header-container">
+	<div class="container">
+		<div class="row">
+			<div class="col col-md-12">
+
+				<header class="clearfix">
+					<ul class="nav nav-pills pull-right">
+						<li><a href="index.html">Home</a></li>
+						<li class="dropdown active">
+							<a class="dropdown-toggle" data-toggle="dropdown" href="#">Chapters <span class="caret"></span></a>
+							<ul class="dropdown-menu" role="menu">								
+								<li><a href="chapter-02.html">02 - jQuery Template</a></li>
+								<li><a href="chapter-03.html">03 - Mustache.js</a></li>
+								<li class="active"><a href="chapter-04.html">04 - Handlebars.js</a></li>
+								<li><a href="chapter-05.html">05 - Dust</a></li>
+							</ul>
+						</li>
+					</ul>
+					<h3 class="margin-top-5">JavaScript Templating</h3>
+				</header>
+
+			</div> <!-- end of - col -->
+		</div> <!-- end of - row -->
+	</div> <!-- end of - container -->
+	</div> <!-- end of - header-container -->
+
+	<div class="container">
+		<div class="row">
+			<div class="col col-md-12 margin-top-20 margin-bottom-20">	
+				
+				<h3>04 - Handlebars.js</h3>
+
+			</div> <!-- end of - col -->
+		</div> <!-- end of - row -->		
+		<div class="row">
+			<div class="col col-md-6 margin-top-20">	
+				
+				<h4 class="margin-top">Precompiled Templates with HandlebarsJS</h4>
+				<h5 class="margin-bottom-20">This example uses an external precompiled template and embedded data directly in the source HTML.</h5>									
+				
+				<div id="content-container-precompiled"></div>				
+
+			</div> <!-- end of - col -->
+			<div class="col col-md-6 margin-top-20">	
+												
+
+			</div> <!-- end of - col -->			
+		</div> <!-- end of - row -->		
+		<div class="row">
+			<div class="col col-md-12 margin-top-20">	
+				
+										
+
+			</div> <!-- end of - col -->
+		</div> <!-- end of - row -->			
+	</div> <!-- end of - container -->
+
+
+	<!-- <script src="http://code.jquery.com/jquery-latest.min.js"></script> -->
+    <!-- <script src="assets/js/bootstrap.min.js"></script> -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <!-- <script src="//cdnjs.cloudflare.com/ajax/libs/mustache.js/0.8.1/mustache.min.js"></script> -->
+    <!-- <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0-alpha.4/handlebars.min.js"></script> -->
+    <script src="assets/js/handlebars.runtime-v1.3.0.js"></script>
+    <script type="text/javascript" src="assets/templates/precomp.js"></script>
+    <script>
+
+    	$("document").ready(function() {
+   			
+    		// Precompiled Template Example.
+    		// *****************************
+
+	    	// Step 2 - Render the template.
+	    	var renderer_precompiled = Handlebars.templates['precomp'];
+	    	//var renderer_precompiled = Handlebars.template("precomp");
+
+	    	// Call the compiled function with the template data.
+	    	var result_precompiled = renderer_precompiled({
+    			"item"			: "Sony 60\" 1080p 120Hz 3D LED Smart TV", 
+    			"description"	: "The Sony KDL60W840B 60\" edge-lit LED full HD 3D smart TV is a powerhouse performer in entertainment. With built-in WiFi, this TV gives you access to the Sony Entertainment Network: stream video instantly online, or just browse the web. With screen mirroring with your Android device, you always be able to find something good to watch.", 
+    			"price"			: 1899.99, 
+    			"on_sale"		: true,
+    			"instock"		: true, 
+    			"quantity"		: 35	    		
+	    	});
+
+	    	// Step 3 - Put the resulting HTML back into the document.
+	    	$("#content-container-precompiled").html(result_precompiled); 
+
+   	
+   		}); // end of - ready function.
+
+    </script>
+
+</body>
+</html>

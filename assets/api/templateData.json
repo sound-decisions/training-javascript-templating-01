@@ -1,0 +1,40 @@
+{
+	"company":	"Sound Decisions", 
+	"employees": [
+		{
+			"name"		: "Jeff Cummings", 
+			"phone"		: "902-448-4118", 
+			"email"		: "jeffsacummings@hotmail.com", 
+			"title"		: "Senior Web Developer", 
+			"fulltime"	: true, 
+			"skills"	: ["Brutal Honesty", "Making People Laugh", "All Things Development Related", "Relaxing"]
+		}, {
+			"name"		: "Brent Lee", 
+			"phone"		: "905-336-5956", 
+			"email"		: "brent_lee@hotmail.com", 
+			"title"		: "Senior Wireless Troubleshooter", 
+			"fulltime"	: true, 
+			"skills"	: ["Having Fun", "Picking Up The Check", "Meeting New People"]		
+		}, {
+			"name"		: "Jim Cummings", 
+			"phone"		: "902-243-2579", 
+			"email"		: "jimskippy@hotmail.com", 
+			"title"		: "Platoon Chief (Retired)", 
+			"fulltime"	: false, 
+			"skills"	: ["Working Hard", "Ignoring Doctors Orders", "Cooking Steak", "Forgetting Stuff", "Thinking Of Others First"]
+		}, {
+			"name"		: "Shirley Cummings", 
+			"phone"		: "902-243-2579", 
+			"email"		: "jscummings@ns.sympatico.ca", 
+			"title"		: "City Hall Desk Staff (Retired)", 
+			"fulltime"	: false		
+		}, {
+			"name"		: "Karis Huxley", 
+			"phone"		: "905-639-8814", 
+			"email"		: "karis.huxley@hotmail.com", 
+			"title"		: "HR Representative", 
+			"fulltime"	: true, 
+			"skills"	: ["Laughing Out Loud", "Making Up Nicknames For People", "Being A Mother", "Watching Survivor"]			
+		}	
+	]
+}

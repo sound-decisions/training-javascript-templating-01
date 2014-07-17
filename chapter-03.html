@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="shortcut icon" href="assets/images/fav_icons/sd_favicon_purple.png" type="image/x-icon" />
+	<title>JavaScript Templating</title>
+	<link href="assets/css/bootstrap.min.css" rel="stylesheet">
+	<link href="assets/css/custom.css" rel="stylesheet">
+</head>
+<body>
+	
+	<div class="header-container">
+	<div class="container">
+		<div class="row">
+			<div class="col col-md-12">
+
+				<header class="clearfix">
+					<ul class="nav nav-pills pull-right">
+						<li><a href="index.html">Home</a></li>
+						<li class="dropdown active">
+							<a class="dropdown-toggle" data-toggle="dropdown" href="#">Chapters <span class="caret"></span></a>
+							<ul class="dropdown-menu" role="menu">								
+								<li><a href="chapter-02.html">02 - jQuery Template</a></li>
+								<li class="active"><a href="chapter-03.html">03 - Mustache.js</a></li>
+								<li><a href="chapter-04.html">04 - Handlebars.js</a></li>
+								<li><a href="chapter-05.html">05 - Dust</a></li>
+							</ul>
+						</li>
+					</ul>
+					<h3 class="margin-top-5">JavaScript Templating</h3>
+				</header>
+
+			</div> <!-- end of - col -->
+		</div> <!-- end of - row -->
+	</div> <!-- end of - container -->
+	</div> <!-- end of - header-container -->
+
+	<div class="container">
+		<div class="row">
+			<div class="col col-md-12 margin-top-20 margin-bottom-20">	
+				
+				<h3>03 - Mustache.js</h3>
+
+			</div> <!-- end of - col -->
+		</div> <!-- end of - row -->		
+		<div class="row">
+			<div class="col col-md-6 margin-top-20">	
+				
+				<h4>Simple Templates with Mustache JS</h4>
+				<h5 class="margin-bottom-20">This example embeds the template and data directly in the source HTML.</h5>									
+				
+				<div id="content-container"></div>	
+
+				<p class="margin-top-20"><strong>Notes:</strong></p>	
+				<p>Added a Function to calculate the Inventory Value.</p>	
+				<p>Added an 'on_sale' field to determine if the price should say 'Sale Price' or just 'Price'.</p>
+
+
+				<h4 class="margin-top">Mustache JS with Functions in the JSON Data</h4>
+				<h5 class="margin-bottom-20">This example embeds the template and data directly in the source HTML.</h5>									
+				
+				<div id="content-container-functions"></div>
+
+
+			</div> <!-- end of - col -->
+			<div class="col col-md-6 margin-top-20">	
+				
+				<h4>Mustache JS Sections</h4>
+				<h5 class="margin-bottom-20">This example embeds the template and data directly in the source HTML.</h5>								
+				
+				<div id="content-container-sections"></div>			
+
+			</div> <!-- end of - col -->
+		</div> <!-- end of - row -->				
+	</div> <!-- end of - container -->
+
+
+	<script type="text/template" id="template-simple">
+		<div class="content-wrapper">
+			<div><strong>{{item}}</strong></div>
+			<div>{{description}}</div>
+			{{#on_sale}}
+				<div class="text-right">Sale Price:  ${{price}}</div>
+			{{/on_sale}}
+			{{^on_sale}}
+				<div class="text-right">Price:  ${{price}}</div>
+			{{/on_sale}}
+			{{! Mustache Condition for the instock field. 
+				It the content is there or is true display the first line, otherwise display the second one.}}
+			{{#instock}}
+				<div>Quantity in Stock:  {{quantity}}</div>
+			{{/instock}}
+			{{^instock}}
+				<div>Out of Stock</div>
+			{{/instock}}	
+			{{! Using a Function in the json data to calculate inventory_value. }}
+			{{#inventory_value}}
+				<div class="text-right">Total Inventory Value:  ${{inventory_value}}</div>
+			{{/inventory_value}}					
+		</div>
+	</script>
+
+
+	<script type="text/template" id="template-sections">
+		{{#employees}}
+		<div class="content-wrapper">
+			{{! This is a mustache comment and it is totally ignored. }}
+			<div>{{name}}</div>
+			<div>{{title}}</div>
+			<div>{{email}}</div>
+			<div>{{phone}}</div>
+			{{! Mustache Condition for fulltime data.  
+				It the content is there or is true display the first line, otherwise display the second one.}}
+			{{#fulltime}}
+				<div>This person works full-time.</div>
+			{{/fulltime}}
+			{{^fulltime}}
+				<div>This person works part-time.</div>
+			{{/fulltime}}
+		</div>
+		{{/employees}}
+	</script>	
+
+
+	<script type="text/template" id="template-functions">
+		{{#items}}
+		<div><span class="padding-right-5">Item:</span>{{#decorate}}<span>{{name}}</span>{{/decorate}}<span class="padding-left-20 padding-right-5">Price:</span><span>{{total}}</span></div>
+		{{/items}}
+	</script>
+
+	<!-- <script src="http://code.jquery.com/jquery-latest.min.js"></script> -->
+    <!-- <script src="assets/js/bootstrap.min.js"></script> -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/mustache.js/0.8.1/mustache.min.js"></script>
+    <!-- <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0-alpha.4/handlebars.min.js"></script> -->
+    <script src="assets/js/app.js"></script>
+    <script>
+
+    	$("document").ready(function() {
+   			
+    		// Simple Template Example.
+    		// ************************
+
+   			// Step 1 - Get template content.
+    		var template = $("#template-simple").html();
+
+
+    		// Step 2 - Render the template.
+    		var result = Mustache.render(template, {
+    			"item"			: "Sony 60\" 1080p 120Hz 3D LED Smart TV", 
+    			"description"	: "The Sony KDL60W840B 60\" edge-lit LED full HD 3D smart TV is a powerhouse performer in entertainment. With built-in WiFi, this TV gives you access to the Sony Entertainment Network: stream video instantly online, or just browse the web. With screen mirroring with your Android device, you always be able to find something good to watch.", 
+    			"price"			: 1899.99, 
+    			"on_sale"		: true,
+    			"instock"		: true, 
+    			"quantity"		: 35, 
+    			"inventory_value"	: function() {
+    				return this.price * this.quantity;
+    			}
+    		});
+
+
+    		// Step 3 - Put the resulting HTML into the document.
+    		$("#content-container").html(result);
+
+
+
+
+    		// Mustache JS Sections Example.
+    		// *****************************
+
+   			// Step 1 - Get template content.
+    		var template_sections = $("#template-sections").html();
+
+
+    		// Step 2 - Render the template.
+    		var result = Mustache.render(template_sections, {
+				"employees": [{
+					"name"		: "Jeff Cummings", 
+					"phone"		: "902-448-4118", 
+					"email"		: "jeffsacummings@hotmail.com", 
+					"title"		: "Senior Web Developer", 
+					"fulltime"	: true, 
+					"skills"	: ["Brutal Honesty", "Making People Laugh", "All Things Development Related", "Relaxing"]
+				}, {
+					"name"		: "Brent Lee", 
+					"phone"		: "905-336-5956", 
+					"email"		: "brent_lee@hotmail.com", 
+					"title"		: "Senior Wireless Troubleshooter", 
+					"fulltime"	: true, 
+					"skills"	: ["Having Fun", "Picking Up The Check", "Meeting New People"]		
+				}, {
+					"name"		: "Jim Cummings", 
+					"phone"		: "902-243-2579", 
+					"email"		: "jimskippy@hotmail.com", 
+					"title"		: "Platoon Chief (Retired)", 
+					"fulltime"	: false, 
+					"skills"	: ["Working Hard", "Ignoring Doctors Orders", "Cooking Steak", "Forgetting Stuff", "Thinking Of Others First"]
+				}, {
+					"name"		: "Shirley Cummings", 
+					"phone"		: "902-243-2579", 
+					"email"		: "jscummings@ns.sympatico.ca", 
+					"title"		: "City Hall Desk Staff (Retired)", 
+					"fulltime"	: false, 
+					"skills"	: ["Worrying About Everything", "Getting Her Way", "Taking Care of Cats"]		
+				}, {
+					"name"		: "Karis Huxley", 
+					"phone"		: "905-639-8814", 
+					"email"		: "karis.huxley@hotmail.com", 
+					"title"		: "HR Representative", 
+					"fulltime"	: false, 
+					"skills"	: ["Laughing Out Loud", "Making Up Nicknames For People", "Being A Mother", "Watching Survivor"]			
+				}]    			
+    		});
+
+
+    		// Step 3 - Put the resulting HTML into the document.
+    		$("#content-container-sections").html(result);
+
+
+
+    		// Mustache JS Functions Example.
+    		// ******************************
+
+   			// Step 1 - Get template content.
+    		var template_functions = $("#template-functions").html();
+
+    		var prodData = {
+    			"items"	: [
+    				{ name: "Product 1", price: 125.00 }, 
+    				{ name: "Product 2", price: 89.00 }, 
+    				{ name: "Product 3", price: 209.00 }, 
+    				{ name: "Product 4", price: 415.00 }
+    			]
+    		};
+
+
+    		// Define the function.
+    		prodData.total = function() {
+				return Math.round((this.price * 1.08) * 100) / 100;    			
+    		};
+
+    		prodData.decorate = function() {
+    			return function(text, render) {
+    				return "<strong>" + render(text) + "</strong>";
+    			};
+    		};
+
+
+    		// Step 2 - Render the template.
+    		var result = Mustache.render(template_functions, prodData);
+
+
+    		// Step 3 - Put the resulting HTML into the document.
+    		$("#content-container-functions").html(result);    		
+
+   		}); // end of - ready function.
+
+
+
+    </script>
+</body>
+</html>

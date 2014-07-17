@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="shortcut icon" href="assets/images/fav_icons/sd_favicon_purple.png" type="image/x-icon" />
+	<title>JavaScript Templating</title>
+	<link href="assets/css/bootstrap.min.css" rel="stylesheet">
+	<link href="assets/css/custom.css" rel="stylesheet">
+</head>
+<body>
+	
+	<div class="header-container">
+	<div class="container">
+		<div class="row">
+			<div class="col col-md-12">
+
+				<header class="clearfix">
+					<ul class="nav nav-pills pull-right">
+						<li><a href="index.html">Home</a></li>
+						<li class="dropdown active">
+							<a class="dropdown-toggle" data-toggle="dropdown" href="#">Chapters <span class="caret"></span></a>
+							<ul class="dropdown-menu" role="menu">								
+								<li class="active"><a href="chapter-02.html">02 - jQuery Template</a></li>
+								<li><a href="chapter-03.html">03 - Mustache.js</a></li>
+								<li><a href="chapter-04.html">04 - Handlebars.js</a></li>
+								<li><a href="chapter-05.html">05 - Dust</a></li>
+							</ul>
+						</li>
+					</ul>
+					<h3 class="margin-top-5">JavaScript Templating</h3>
+				</header>
+
+			</div> <!-- end of - col -->
+		</div> <!-- end of - row -->
+	</div> <!-- end of - container -->
+	</div> <!-- end of - header-container -->
+
+	<div class="container">
+		<div class="row">
+			<div class="col col-md-12 margin-top-20 margin-bottom-20">	
+				
+				<h3>02 - jQuery Template with Paging</h3>
+
+			</div> <!-- end of - col -->
+		</div> <!-- end of - row -->	
+		<div class="row">
+			<div class="col col-md-12 margin-top-20">		
+
+				<ul id="sub-nav" class="nav nav-pills">
+					<li><a href="chapter-02.html">jQuery Template</a></li>
+					<li class="active"><a href="chapter-02-paging.html">Paging</a></li>
+					<li><a href="chapter-02-binding.html">Binding</a></li>
+				</ul>			
+
+			</div> <!-- end of - col -->
+		</div> <!-- end of - row -->			
+		<div class="row">
+			<div class="col col-md-12 margin-top-20">	
+				
+				<h4>Simple Templates with jQuery Template with Paging</h4>
+				<h5 class="margin-bottom-20">This example embeds the template directly in the source HTML and gets the data from an external .json file.</h5>				
+
+			</div> <!-- end of - col -->
+		</div> <!-- end of - row -->		
+		<div class="row">
+			<div class="col col-md-12 margin-top-20">
+
+				<script type="text/html" id="template-01">
+					<div class="content-wrapper">
+						<div data-content="name" data-format="MakeHeader"></div>
+						<div data-content="title" data-format="UpperCase"></div>
+						<div data-content="email" data-link="email" data-format="EmailLink" data-format-target="link"></div>
+						<div data-content="phone"></div>
+					</div>
+				</script>
+
+				<div id="content-container">
+					<!-- Rendered templates will go here -->
+				</div>
+
+				<button id="prevPage" class="btn btn-sm btn-primary">Previous</button>
+				<button id="nextPage" class="btn btn-sm btn-primary">Next</button>
+
+			</div> <!-- end of - col -->
+		</div> <!-- end of - row -->		
+	</div> <!-- end of - container -->
+
+
+
+	<!-- <script src="http://code.jquery.com/jquery-latest.min.js"></script> -->
+    <!-- <script src="assets/js/bootstrap.min.js"></script> -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="assets/js/jquery.loadTemplate-1.4.4.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <!-- <script src="assets/js/chapter-02-04.js"></script> -->
+    <script>
+
+    	// Basic loadTemplate call.
+    	//$("#content-container").loadTemplate("template-01", data);
+    	
+    	var curPage = 1;
+    	var lastPage = 4;
+    	var templateData = null;
+
+    	function getData() {
+    		$.getJSON("assets/api/templateData.json", function(data) {
+    			templateData = data;
+    			// Set the value of the lastPage variable based on the length of the employees array.
+    			lastPage = data["employees"].length;
+    			renderTemplates(templateData, curPage);
+    		});
+    	}
+
+    	function renderTemplates(data, pageNo) {
+    		$("#content-container").loadTemplate($("#template-01"), data["employees"], {paged: true, pageNo: pageNo, elemPerPage: 1} );
+    	}
+
+
+   		window.addEventListener("load", function(e) {
+   			
+			// Define formatter(s).
+			$.addTemplateFormatter("UpperCase", function(value, options) {
+				return value.toUpperCase();
+			});	
+
+			$.addTemplateFormatter("MakeHeader", function(value, options) {
+				return '<h4>' + value + '</h4>';
+			})
+
+   			$.addTemplateFormatter("EmailLink", function(value, ooptions) {
+   				return "mailto:" + value;
+   			});
+
+   			// Setup event listeners for the Previous and Next Buttons.
+   			document.querySelector("#prevPage").addEventListener("click", function(evt) {
+   				if (curPage > 1) {
+   					renderTemplates(templateData, --curPage);
+   				}
+   			});
+
+   			document.querySelector("#nextPage").addEventListener("click", function(evt) {
+   				if (curPage < lastPage) {
+   					renderTemplates(templateData, ++curPage);
+   				}
+   			});   	
+
+   			getData();		
+
+   		});
+
+    </script>
+
+</body>
+</html>

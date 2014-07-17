@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="shortcut icon" href="assets/images/fav_icons/sd_favicon_purple.png" type="image/x-icon" />
+	<title>JavaScript Templating</title>
+	<link href="assets/css/bootstrap.min.css" rel="stylesheet">
+	<link href="assets/css/custom.css" rel="stylesheet">
+</head>
+<body>
+	
+	<div class="header-container">
+	<div class="container">
+		<div class="row">
+			<div class="col col-md-12">
+
+				<header class="clearfix">
+					<ul class="nav nav-pills pull-right">
+						<li><a href="index.html">Home</a></li>
+						<li class="dropdown active">
+							<a class="dropdown-toggle" data-toggle="dropdown" href="#">Chapters <span class="caret"></span></a>
+							<ul class="dropdown-menu" role="menu">								
+								<li><a href="chapter-02.html">02 - jQuery Template</a></li>
+								<li><a href="chapter-03.html">03 - Mustache.js</a></li>
+								<li><a href="chapter-04.html">04 - Handlebars.js</a></li>
+								<li class="active"><a href="chapter-05.html">05 - Dust</a></li>
+							</ul>
+						</li>
+					</ul>
+					<h3 class="margin-top-5">JavaScript Templating</h3>
+				</header>
+
+			</div> <!-- end of - col -->
+		</div> <!-- end of - row -->
+	</div> <!-- end of - container -->
+	</div> <!-- end of - header-container -->
+
+	<div class="container">
+		<div class="row">
+			<div class="col col-md-12 margin-top-20 margin-bottom-20">	
+				
+				<h3>05 - Dust</h3>
+
+			</div> <!-- end of - col -->
+		</div> <!-- end of - row -->		
+		<div class="row">
+			<div class="col col-md-6 margin-top-20 margin-bottom">	
+				
+				<h4>Simple Templates with Dust.JS</h4>
+				<h5 class="margin-bottom-20">This example embeds the template and data directly in the source HTML.</h5>									
+				
+				<div id="content-container-simple"></div>	
+
+
+				<h4 class="margin-top">Templates using Sections with Paths and Context with Dust.JS</h4>
+				<h5 class="margin-bottom-20">This example embeds the template and data directly in the source HTML.</h5>									
+				
+				<div id="content-container-p-and-c"></div>	
+
+
+				<h4 class="margin-top">Templates and Helpers with Dust.JS</h4>												
+				
+				<div><a href="chapter-05-helpers.html">Template and Helpers Example</a></div>							
+
+			</div> <!-- end of - col -->
+			<div class="col col-md-6 margin-top-20 margin-bottom">	
+				
+				<h4>Templates using Sections with Dust.JS</h4>
+				<h5 class="margin-bottom-20">This example loads the data from an external file and embeds the template directly in the source HTML.</h5>									
+				
+				<div id="content-container-sections"></div>				
+
+			</div> <!-- end of - col -->			
+		</div> <!-- end of - row -->
+		<div class="row">
+			<div class="col col-md-12 margin-top-20">	
+				
+										
+
+			</div> <!-- end of - col -->
+		</div> <!-- end of - row -->				
+	</div> <!-- end of - container -->
+
+
+
+
+
+	<!-- <script src="http://code.jquery.com/jquery-latest.min.js"></script> -->
+    <!-- <script src="assets/js/bootstrap.min.js"></script> -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script src="assets/js/dust-full.js"></script>
+    <script>
+
+
+    	// Template using Sections with Paths and Context Example.
+    	// *******************************************************
+
+    	function renterTemplatesSectionsPandC(e) {
+
+	    	var data_object = {
+	    		"employee"	: {
+					"name"		 : "Jeff Cummings", 
+					"phone"		 : "902-448-4118", 
+					"email"		 : "jeffsacummings@hotmail.com", 
+					"title"		 : "Senior Web Developer", 
+					"fulltime"	 : true, 
+					"skills"	 : ["Brutal Honesty", "Making People Laugh", "All Things Development Related", "Relaxing"], 
+					"department" : {
+						"name"			: "Development", 
+						"cost_center"	: 90125
+					}  
+	    		}  		
+	    	};
+
+	    	// Step 1 - Get the template content.
+	    	var template = document.getElementById('template-p-and-c').innerHTML;
+
+	    	// Step 2 - Render the template.
+	    	var data_template = dust.compile(template, "my_template");
+
+	    	// Step 3 - Load the compiled template into Dust's cache.
+	    	dust.loadSource(data_template);
+
+	    	// Step 4 - Render the template.
+	   		dust.render("my_template", data_object, function (err, res) {
+	   			document.getElementById('content-container-p-and-c').innerHTML = res;
+	   		});    			
+
+    	} // end of - function renterTemplatesSectionsPandC.
+   		
+
+   		window.addEventListener("load", renterTemplatesSectionsPandC);
+
+
+
+
+    	// Template using Sections Example.
+    	// ********************************
+
+    	function renterTemplatesSections(e) {
+
+    		// Load data from an external file.
+    		$.getJSON("assets/api/templateData.json", function(data) {
+
+		    	// Step 1 - Get the template content.
+		    	var template = document.getElementById('template-sections').innerHTML;
+
+		    	// Step 2 - Render the template.
+		    	var data_template = dust.compile(template, "my_template");
+
+		    	// Step 3 - Load the compiled template into Dust's cache.
+		    	dust.loadSource(data_template);
+
+		    	// Step 4 - Render the template.
+		   		dust.render("my_template", data, function (err, res) {
+		   			document.getElementById('content-container-sections').innerHTML = res;
+		   		});    			
+
+    		});
+
+    	} // end of - function renterTemplatesSections.
+   		
+
+   		window.addEventListener("load", renterTemplatesSections);
+
+
+
+    	// Simple Template Example.
+    	// ************************
+
+    	function renterTemplatesSimple(e) {
+
+	    	var data_object = {
+				"name"		: "Jeff Cummings", 
+				"phone"		: "902-448-4118", 
+				"email"		: "jeffsacummings@hotmail.com", 
+				"title"		: "Senior Web Developer", 
+				"fulltime"	: true, 
+				"skills"	: ["Brutal Honesty", "Making People Laugh", "All Things Development Related", "Relaxing"]    		
+	    	};
+
+	    	// Step 1 - Get the template content.
+	    	var template = document.getElementById('template-simple').innerHTML;
+
+	    	// Step 2 - Render the template.
+	    	var data_template = dust.compile(template, "my_template");
+
+	    	// Step 3 - Load the compiled template into Dust's cache.
+	    	dust.loadSource(data_template);
+
+	    	// Step 4 - Render the template.
+	   		dust.render("my_template", data_object, function (err, res) {
+	   			document.getElementById('content-container-simple').innerHTML = res;
+	   		});
+
+    	} // end of - function renterTemplatesSimple.
+   		
+
+   		window.addEventListener("load", renterTemplatesSimple);
+
+
+
+    </script>
+
+
+	<script type="text/x-template" id="template-p-and-c">
+		<h3>{company} Employees:</h3>
+		{#employee prefix="Skills"}
+		<div class="content-wrapper">
+			<div><strong>{name}</strong></div>
+			<div>{title}</div>
+			{#employee.department}
+				<div>{name} ({cost_center})</div>				
+			{/employee.department}
+			<div>{phone}</div>					
+			<div>{email}</div>
+			<div>{prefix}:</div>
+			<div>{skills}</div>
+		</div>
+		{:else}
+			<div>There are no employees.</div>
+		{/employee}
+	</script>
+
+
+
+
+	<script type="text/x-template" id="template-sections">
+		<h3>{company} Employees:</h3>
+		{#employees prefix="Skills"}
+		<div class="content-wrapper">
+			<div><strong>{name}</strong></div>
+			<div>{title}</div>
+			<div>{phone}</div>					
+			<div>{email}</div>
+			<div>{prefix}:</div>
+			<div>{skills}</div>
+		</div>
+		{:else}
+			<div>There are no employees.</div>
+		{/employees}
+	</script>
+
+
+	<script type="text/template" id="template-simple">
+		<div class="content-wrapper">
+			<div><strong>{name}</strong></div>
+			<div>{title}</div>
+			<div>{phone}</div>					
+			<div>{email}</div>
+		</div>
+	</script>    
+
+</body>
+</html>
